@@ -1,7 +1,7 @@
 .DS_Store
 AppleDouble
 .LSOverride
-.vscode
+.vscode/
 
 
 node_modules/
