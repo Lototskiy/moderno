@@ -90,34 +90,38 @@ gulp.task("scss", function () {
 gulp.task("style", function () {
 	//создаём единую библиотеку из css-стилей всех плагинов
 	return gulp
-		.src([
-			//указываем, где брать исходники
-			"node_modules/normalize.css/normalize.css",
-		])
-		.pipe(sourcemaps.init())
-		.pipe(concat("libs.min.css")) //склеиваем их в один файл с указанным именем
-		.pipe(cssmin()) //минифицируем полученный файл
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest("build/css")) //кидаем готовый файл в директорию
-		.pipe(size());
+    .src([
+      //указываем, где брать исходники
+      "node_modules/normalize.css/normalize.css",
+      "node_modules/slick-carousel/slick/slick.css",
+      "node_modules/rateyo/src/jquery.rateyo.css",
+    ])
+    .pipe(sourcemaps.init())
+    .pipe(concat("libs.min.css")) //склеиваем их в один файл с указанным именем
+    .pipe(cssmin()) //минифицируем полученный файл
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest("build/css")) //кидаем готовый файл в директорию
+    .pipe(size());
 });
 
 gulp.task("script", function () {
 	//аналогично поступаем с js-файлами
 	return gulp
-		.src([
-			//тут подключаем разные js в общую библиотеку. Отключите то, что вам не нужно.
-			"node_modules/jquery/dist/jquery.js",
-			"node_modules/mixitup/dist/mixitup.js"
-		])
-		.pipe(size())
-		.pipe(sourcemaps.init())
-		.pipe(babel())
-		.pipe(concat("libs.min.js"))
-		.pipe(uglify())
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest("build/js"))
-		.pipe(size());
+    .src([
+      //тут подключаем разные js в общую библиотеку. Отключите то, что вам не нужно.
+      "node_modules/jquery/dist/jquery.js",
+      "node_modules/slick-carousel/slick/slick.js",
+      "node_modules/mixitup/dist/mixitup.js",
+      "node_modules/rateyo/src/jquery.rateyo.js",
+    ])
+    .pipe(size())
+    .pipe(sourcemaps.init())
+    .pipe(babel())
+    .pipe(concat("libs.min.js"))
+    .pipe(uglify())
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest("build/js"))
+    .pipe(size());
 });
 
 gulp.task("minjs", function () {
