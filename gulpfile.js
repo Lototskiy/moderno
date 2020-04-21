@@ -90,33 +90,45 @@ gulp.task("scss", function () {
 gulp.task("style", function () {
 	//создаём единую библиотеку из css-стилей всех плагинов
 	return gulp
-		.src([
-			//указываем, где брать исходники
-			"node_modules/normalize.css/normalize.css",
-		])
-		.pipe(sourcemaps.init())
-		.pipe(concat("libs.min.css")) //склеиваем их в один файл с указанным именем
-		.pipe(cssmin()) //минифицируем полученный файл
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest("build/css")) //кидаем готовый файл в директорию
-		.pipe(size());
+    .src([
+      //указываем, где брать исходники
+      "node_modules/normalize.css/normalize.css",
+      "node_modules/slick-carousel/slick/slick.css",
+			"node_modules/rateyo/src/jquery.rateyo.css",
+			"node_modules/ion-rangeslider/css/ion.rangeSlider.css",
+			"node_modules/@fancyapps/fancybox/dist/jquery.fancybox.css",
+			"node_modules/jquery-form-styler/dist/jquery.formstyler.css",
+			"node_modules/jquery-form-styler/dist/jquery.formstyler.theme.css"
+    ])
+    .pipe(sourcemaps.init())
+    .pipe(concat("libs.min.css")) //склеиваем их в один файл с указанным именем
+    .pipe(cssmin()) //минифицируем полученный файл
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest("build/css")) //кидаем готовый файл в директорию
+    .pipe(size());
 });
 
 gulp.task("script", function () {
 	//аналогично поступаем с js-файлами
 	return gulp
-		.src([
-			//тут подключаем разные js в общую библиотеку. Отключите то, что вам не нужно.
+    .src([
+      //тут подключаем разные js в общую библиотеку. Отключите то, что вам не нужно.
 			"node_modules/jquery/dist/jquery.js",
-		])
-		.pipe(size())
-		.pipe(sourcemaps.init())
-		.pipe(babel())
-		.pipe(concat("libs.min.js"))
-		.pipe(uglify())
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest("build/js"))
-		.pipe(size());
+			"node_modules/rateyo/src/jquery.rateyo.js",
+      "node_modules/slick-carousel/slick/slick.js",
+      "node_modules/mixitup/dist/mixitup.js",
+			"node_modules/ion-rangeslider/js/ion.rangeSlider.js",
+			"node_modules/@fancyapps/fancybox/dist/jquery.fancybox.js",
+			"node_modules/jquery-form-styler/dist/jquery.formstyler.js"
+    ])
+    .pipe(size())
+    .pipe(sourcemaps.init())
+    .pipe(babel())
+    .pipe(concat("libs.min.js"))
+    .pipe(uglify())
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest("build/js"))
+    .pipe(size());
 });
 
 gulp.task("minjs", function () {
@@ -233,7 +245,7 @@ gulp.task("font-eot", function () {
 gulp.task("images", function () {
 	//пережимаем изображения и складываем их в директорию build
 	return gulp
-		.src("src/img/**/*.+(png|jpg|jpeg|gif|svg|ico)")
+		.src("src/images/**/*.+(png|jpg|jpeg|gif|svg|ico)")
 		.pipe(size())
 		.pipe(
 			imagemin([
@@ -249,7 +261,7 @@ gulp.task("images", function () {
 				imagemin.svgo(),
 			]),
 		)
-		.pipe(gulp.dest("build/img"))
+		.pipe(gulp.dest("build/images"))
 		.pipe(
 			browserSync.reload({
 				stream: true,
@@ -265,7 +277,7 @@ gulp.task("deletefonts", function () {
 
 gulp.task("deleteimg", function () {
 	//аналогично предыдущей, но с картинками.
-	return del.sync("build/img/**/*.*");
+	return del.sync("build/images/**/*.*");
 });
 
 gulp.task("watch", function () {
@@ -277,7 +289,7 @@ gulp.task("watch", function () {
 		gulp.parallel("font-woff", "font-woff2", "font-eot"),
 	);
 	gulp.watch("src/js/**/*.js", gulp.parallel("minjs", "js"));
-	gulp.watch("src/img/**/*.*", gulp.parallel("images"));
+	gulp.watch("src/images/**/*.*", gulp.parallel("images"));
 });
 
 gulp.task("deploy", function () {
